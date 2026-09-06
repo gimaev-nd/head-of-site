@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Django
+db.sqlite3
+*.log
+
+# Rust (legacy)
+/target
+
+# Misc
+.DS_Store
+.env
