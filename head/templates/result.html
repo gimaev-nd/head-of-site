@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="mx-auto max-w-5xl px-4 py-8">
+    <a href="{% url 'index' %}" class="btn btn-ghost btn-sm mb-4">← Новый поиск</a>
+
+    {% if error %}
+        <div class="alert alert-error" role="alert">
+            <span>{{ error }}</span>
+        </div>
+    {% else %}
+        <p class="mb-4 break-all text-sm font-medium">{{ info.url }}</p>
+
+        <div class="grid grid-cols-4 gap-4">
+            <div class="col-span-1">
+                <div class="card bg-base-200">
+                    <div class="card-body">
+                        <h2 class="card-title text-base">Расшифровка URL</h2>
+                        <dl class="flex flex-col gap-2 text-sm">
+                            <div class="flex items-start justify-between gap-3">
+                                <dt class="text-xs opacity-60">scheme</dt>
+                                <dd class="break-all font-medium">{{ info.parsed_url.scheme }}</dd>
+                            </div>
+                            <div class="flex items-start justify-between gap-3">
+                                <dt class="text-xs opacity-60">host</dt>
+                                <dd class="break-all font-medium">{{ info.parsed_url.host }}</dd>
+                            </div>
+                            <div class="flex items-start justify-between gap-3">
+                                <dt class="text-xs opacity-60">port</dt>
+                                <dd class="font-medium">{{ info.parsed_url.port|default:"—" }}</dd>
+                            </div>
+                            <div class="flex items-start justify-between gap-3">
+                                <dt class="text-xs opacity-60">path</dt>
+                                <dd class="break-all font-medium">{{ info.parsed_url.path }}</dd>
+                            </div>
+                            <div class="flex flex-col gap-1 border-t border-base-300 pt-2">
+                                <dt class="text-xs font-medium uppercase tracking-wide opacity-60">query</dt>
+                                {% if info.parsed_url.query.items %}
+                                    {% for key, value in info.parsed_url.query.items %}
+                                        <div class="flex items-start justify-between gap-3">
+                                            <span class="shrink-0 text-xs opacity-60">{{ key }}</span>
+                                            <span class="break-all text-right text-sm">{{ value }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <dd class="text-sm opacity-60">—</dd>
+                                {% endif %}
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-3">
+                <div class="card bg-base-200">
+                    <div class="card-body">
+                        <div role="tablist" class="tabs tabs-bordered">
+                            <input type="radio" name="head_tabs" role="tab" class="tab"
+                                   aria-label="Информация" checked />
+                            <div role="tabpanel" class="tab-content p-4">
+                                <div class="flex flex-col gap-5">
+                                    <div class="flex flex-col gap-1">
+                                        <p class="text-xs font-medium uppercase tracking-wide opacity-60">Заголовок (title)</p>
+                                        <p class="text-sm">{{ info.title|default:"—" }}</p>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <p class="text-xs font-medium uppercase tracking-wide opacity-60">Описание (meta description)</p>
+                                        <p class="text-sm">{{ info.description|default:"—" }}</p>
+                                    </div>
+
+                                    <div class="flex flex-col gap-2">
+                                        <p class="text-xs font-medium uppercase tracking-wide opacity-60">SEO</p>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">canonical</span>
+                                            <span class="break-all text-right text-sm">{{ info.seo.canonical|default:"—" }}</span>
+                                        </div>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">robots</span>
+                                            <span class="break-all text-right text-sm">{{ info.seo.robots|default:"—" }}</span>
+                                        </div>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">keywords</span>
+                                            <span class="break-all text-right text-sm">{{ info.seo.keywords|default:"—" }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col gap-2">
+                                        <p class="text-xs font-medium uppercase tracking-wide opacity-60">Open Graph</p>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">title</span>
+                                            <span class="break-all text-right text-sm">{{ info.opengraph.title|default:"—" }}</span>
+                                        </div>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">description</span>
+                                            <span class="break-all text-right text-sm">{{ info.opengraph.description|default:"—" }}</span>
+                                        </div>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">image</span>
+                                            <span class="break-all text-right text-sm">{{ info.opengraph.image|default:"—" }}</span>
+                                        </div>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">url</span>
+                                            <span class="break-all text-right text-sm">{{ info.opengraph.url|default:"—" }}</span>
+                                        </div>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">type</span>
+                                            <span class="break-all text-right text-sm">{{ info.opengraph.type|default:"—" }}</span>
+                                        </div>
+                                        <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                            <span class="shrink-0 text-xs opacity-60">site_name</span>
+                                            <span class="break-all text-right text-sm">{{ info.opengraph.site_name|default:"—" }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col gap-2">
+                                        <p class="text-xs font-medium uppercase tracking-wide opacity-60">Favicon</p>
+                                        {% if info.favicons %}
+                                            {% for favicon in info.favicons %}
+                                                <div class="flex items-start justify-between gap-3 border-b border-base-300 py-1.5">
+                                                    <span class="break-all text-sm">{{ favicon.url }}</span>
+                                                    <span class="badge badge-ghost shrink-0">{{ favicon.size|default:"—" }}</span>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p class="text-sm opacity-60">Не найдено</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="radio" name="head_tabs" role="tab" class="tab"
+                                   aria-label="Тег &lt;head&gt;" />
+                            <div role="tabpanel" class="tab-content p-4">
+                                <pre class="overflow-x-auto text-xs leading-relaxed"><code>{{ info.head }}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</main>
+{% endblock %}

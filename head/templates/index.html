@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="flex min-h-screen items-center justify-center px-4">
+    <div class="w-full max-w-xl">
+        <h1 class="mb-2 text-center text-2xl font-semibold">Head of Site</h1>
+        <p class="mb-6 text-center text-sm opacity-60">
+            Введите URL, чтобы посмотреть содержимое его тега &lt;head&gt;.
+        </p>
+        <form method="get" action="{% url 'result' %}" class="flex gap-2">
+            <input type="url" name="url" placeholder="https://example.com" required
+                   class="input input-bordered flex-1" />
+            <button type="submit" class="btn btn-primary">Анализировать</button>
+        </form>
+    </div>
+</main>
+{% endblock %}
